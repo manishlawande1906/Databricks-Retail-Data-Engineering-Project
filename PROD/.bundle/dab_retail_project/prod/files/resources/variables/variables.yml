@@ -1,0 +1,19 @@
+variables:
+  catalog_name:
+    default: db_lakehouse_retail
+
+  bronze_schema:
+    description: "Bronze schema"
+    default: bronze
+
+  storage_account:
+    default: retailstorageaccount19
+
+  raw_container:
+    default: ext-tables
+
+  checkpoint_container:
+      default: checkpoint
+
+  source_folder:
+    default: online_sales

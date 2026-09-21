@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "config": {
+    "bundle": {
+      "name": "dab_retail_project",
+      "target": "prod",
+      "mode": "production",
+      "git": {
+        "branch": "manish-feature",
+        "origin_url": "https://github.com/manishlawande1906/Databricks-Retail-Project.git",
+        "commit": "0b8284c849661117c77ac4e0d6d932b5741d801f",
+        "bundle_root_path": "dab_retail_project"
+      }
+    },
+    "workspace": {
+      "file_path": "/Workspace/Users/manishp20042000@gmail.com/PROD/.bundle/dab_retail_project/prod/files"
+    },
+    "resources": {
+      "jobs": {
+        "end_to_end_lakeflow_job": {
+          "id": "691377485292558",
+          "relative_path": "resources/jobs \u0026 pipelines/lakeflow_job.yml"
+        }
+      },
+      "pipelines": {
+        "pipeline_data_ingestion_offline_data": {
+          "id": "841e0077-b286-47b2-aad7-e1ad6d808512",
+          "relative_path": "resources/jobs \u0026 pipelines/data_ingestion_offline_data.yml"
+        },
+        "pipeline_declarative_silver_gold_pipeline": {
+          "id": "c6f913cd-c61b-4744-9746-c8c032f923f9",
+          "relative_path": "resources/jobs \u0026 pipelines/declarative_silver_gold_pipeline.yml"
+        }
+      }
+    },
+    "presets": {
+      "source_linked_deployment": false
+    }
+  },
+  "extra": {
+    "git_folder_path": "/Workspace/Users/manishp20042000@gmail.com/Databricks-Retail-Project/assetbundles"
+  }
+}

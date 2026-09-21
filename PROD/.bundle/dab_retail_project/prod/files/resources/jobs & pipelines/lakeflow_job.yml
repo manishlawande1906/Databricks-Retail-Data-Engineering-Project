@@ -1,0 +1,32 @@
+resources:
+  jobs:
+    end_to_end_lakeflow_job:
+      name: end to end lakeflow job
+
+      tasks:
+        - task_key: bronze_offline_sql_data
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.pipeline_data_ingestion_offline_data.id}
+
+        - task_key: bronze_online_json_data
+          notebook_task:
+            notebook_path: ../../src/bronze_layer/online_bronze_layer.ipynb
+            base_parameters:
+              catalog_name: ${var.catalog_name}
+              bronze_schema: ${var.bronze_schema}
+              storage_account: ${var.storage_account}
+              raw_container: ${var.raw_container}
+              checkpoint_container: ${var.checkpoint_container}
+              source_folder: ${var.source_folder}
+            source: WORKSPACE
+
+        - task_key: silver_gold_lakeflow_job
+          depends_on:
+            - task_key: bronze_offline_sql_data
+            - task_key: bronze_online_json_data
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.pipeline_declarative_silver_gold_pipeline.id}
+
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED
