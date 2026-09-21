@@ -76,7 +76,10 @@ ADLS Gen2 JSON ──────┘
 
 
 
+
+
 **8. Project Outcome**
+
 *Integrated offline and online retail data.
 *Improved customer and product data quality.
 *Created unified dimensional models.
