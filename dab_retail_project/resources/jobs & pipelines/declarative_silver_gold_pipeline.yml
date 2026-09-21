@@ -1,0 +1,12 @@
+resources:
+  pipelines:
+    pipeline_declarative_silver_gold_pipeline:
+      name: Declarative_silver_gold_pipeline
+      libraries:
+        - glob:
+            include: ../../src/silver_layer/Declarative_silver_gold_pipeline/transformations/**
+      schema: silver
+      photon: true
+      catalog: ${var.catalog_name}
+      serverless: true
+      root_path: ../../src/silver_layer/Declarative_silver_gold_pipeline

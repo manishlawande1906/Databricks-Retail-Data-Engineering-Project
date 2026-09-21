@@ -1,0 +1,231 @@
+{
+ "state_version": 3,
+ "cli_version": "1.17.0",
+ "lineage": "73c58ee5-0b16-4700-9278-381df3eef79e",
+ "serial": 5,
+ "state": {
+  "resources.jobs.end_to_end_lakeflow_job": {
+   "__id__": "691377485292558",
+   "state": {
+    "deployment": {
+     "kind": "BUNDLE",
+     "metadata_file_path": "/Workspace/Users/manishp20042000@gmail.com/PROD/.bundle/dab_retail_project/prod/state/metadata.json"
+    },
+    "edit_mode": "UI_LOCKED",
+    "format": "MULTI_TASK",
+    "max_concurrent_runs": 1,
+    "name": "end to end lakeflow job",
+    "performance_target": "PERFORMANCE_OPTIMIZED",
+    "queue": {
+     "enabled": true
+    },
+    "tasks": [
+     {
+      "pipeline_task": {
+       "pipeline_id": "841e0077-b286-47b2-aad7-e1ad6d808512"
+      },
+      "task_key": "bronze_offline_sql_data"
+     },
+     {
+      "notebook_task": {
+       "base_parameters": {
+        "bronze_schema": "bronze",
+        "catalog_name": "db_lakehouse_retail",
+        "checkpoint_container": "checkpoint",
+        "raw_container": "ext-tables",
+        "source_folder": "online_sales",
+        "storage_account": "retailstorageaccount19"
+       },
+       "notebook_path": "/Workspace/Users/manishp20042000@gmail.com/PROD/.bundle/dab_retail_project/prod/files/src/bronze_layer/online_bronze_layer",
+       "source": "WORKSPACE"
+      },
+      "task_key": "bronze_online_json_data"
+     },
+     {
+      "depends_on": [
+       {
+        "task_key": "bronze_offline_sql_data"
+       },
+       {
+        "task_key": "bronze_online_json_data"
+       }
+      ],
+      "pipeline_task": {
+       "pipeline_id": "c6f913cd-c61b-4744-9746-c8c032f923f9"
+      },
+      "task_key": "silver_gold_lakeflow_job"
+     }
+    ]
+   },
+   "depends_on": [
+    {
+     "node": "resources.pipelines.pipeline_data_ingestion_offline_data",
+     "label": "${resources.pipelines.pipeline_data_ingestion_offline_data.id}"
+    },
+    {
+     "node": "resources.pipelines.pipeline_declarative_silver_gold_pipeline",
+     "label": "${resources.pipelines.pipeline_declarative_silver_gold_pipeline.id}"
+    }
+   ]
+  },
+  "resources.jobs.end_to_end_lakeflow_job.permissions": {
+   "__id__": "/jobs/187491285254516",
+   "state": {
+    "object_id": "/jobs/691377485292558",
+    "__embed__": [
+     {
+      "level": "IS_OWNER",
+      "user_name": "manishp20042000@gmail.com"
+     }
+    ]
+   },
+   "depends_on": [
+    {
+     "node": "resources.jobs.end_to_end_lakeflow_job",
+     "label": "${resources.jobs.end_to_end_lakeflow_job.id}"
+    }
+   ]
+  },
+  "resources.pipelines.pipeline_data_ingestion_offline_data": {
+   "__id__": "841e0077-b286-47b2-aad7-e1ad6d808512",
+   "state": {
+    "catalog": "db_lakehouse_retail",
+    "channel": "PREVIEW",
+    "deployment": {
+     "kind": "BUNDLE",
+     "metadata_file_path": "/Workspace/Users/manishp20042000@gmail.com/PROD/.bundle/dab_retail_project/prod/state/metadata.json"
+    },
+    "edition": "ADVANCED",
+    "ingestion_definition": {
+     "connection_name": "databricks_azuresql-connection",
+     "objects": [
+      {
+       "table": {
+        "destination_catalog": "db_lakehouse_retail",
+        "destination_schema": "bronze",
+        "destination_table": "offline_customers",
+        "source_catalog": "retail_project_db",
+        "source_schema": "dbo",
+        "source_table": "offline_customers",
+        "table_configuration": {
+         "primary_keys": [
+          "customer_id"
+         ],
+         "query_based_connector_config": {
+          "cursor_columns": [
+           "last_update"
+          ]
+         }
+        }
+       }
+      },
+      {
+       "table": {
+        "destination_catalog": "db_lakehouse_retail",
+        "destination_schema": "bronze",
+        "destination_table": "offline_orders",
+        "source_catalog": "retail_project_db",
+        "source_schema": "dbo",
+        "source_table": "offline_orders",
+        "table_configuration": {
+         "primary_keys": [
+          "order_id"
+         ],
+         "query_based_connector_config": {
+          "cursor_columns": [
+           "order_date"
+          ]
+         }
+        }
+       }
+      },
+      {
+       "table": {
+        "destination_catalog": "db_lakehouse_retail",
+        "destination_schema": "bronze",
+        "destination_table": "offline_products",
+        "source_catalog": "retail_project_db",
+        "source_schema": "dbo",
+        "source_table": "offline_products",
+        "table_configuration": {
+         "primary_keys": [
+          "product_id"
+         ],
+         "query_based_connector_config": {
+          "cursor_columns": [
+           "last_update"
+          ]
+         }
+        }
+       }
+      }
+     ],
+     "source_type": "SQLSERVER"
+    },
+    "name": "data-ingestion-offline-data",
+    "schema": "bronze",
+    "serverless": true
+   }
+  },
+  "resources.pipelines.pipeline_data_ingestion_offline_data.permissions": {
+   "__id__": "/pipelines/2bd81751-b012-4498-aae2-5cc8ed73305f",
+   "state": {
+    "object_id": "/pipelines/841e0077-b286-47b2-aad7-e1ad6d808512",
+    "__embed__": [
+     {
+      "level": "IS_OWNER",
+      "user_name": "manishp20042000@gmail.com"
+     }
+    ]
+   },
+   "depends_on": [
+    {
+     "node": "resources.pipelines.pipeline_data_ingestion_offline_data",
+     "label": "${resources.pipelines.pipeline_data_ingestion_offline_data.id}"
+    }
+   ]
+  },
+  "resources.pipelines.pipeline_declarative_silver_gold_pipeline": {
+   "__id__": "c6f913cd-c61b-4744-9746-c8c032f923f9",
+   "state": {
+    "catalog": "db_lakehouse_retail",
+    "channel": "CURRENT",
+    "deployment": {
+     "kind": "BUNDLE",
+     "metadata_file_path": "/Workspace/Users/manishp20042000@gmail.com/PROD/.bundle/dab_retail_project/prod/state/metadata.json"
+    },
+    "edition": "ADVANCED",
+    "libraries": [
+     {
+      "glob": {
+       "include": "/Workspace/Users/manishp20042000@gmail.com/PROD/.bundle/dab_retail_project/prod/files/src/silver_layer/Declarative_silver_gold_pipeline/transformations/**"
+      }
+     }
+    ],
+    "name": "Declarative_silver_gold_pipeline",
+    "photon": true,
+    "root_path": "/Workspace/Users/manishp20042000@gmail.com/PROD/.bundle/dab_retail_project/prod/files/src/silver_layer/Declarative_silver_gold_pipeline",
+    "schema": "silver",
+    "serverless": true
+   }
+  },
+  "resources.pipelines.pipeline_declarative_silver_gold_pipeline.permissions": {
+   "__id__": "/pipelines/d87277bd-b406-478f-9776-42dd4c66b6df",
+   "state": {
+    "object_id": "/pipelines/c6f913cd-c61b-4744-9746-c8c032f923f9",
+    "__embed__": [
+     {
+      "level": "IS_OWNER",
+      "user_name": "manishp20042000@gmail.com"
+     }
+    ]
+   },
+   "depends_on": [
+    {
+     "node": "resources.pipelines.pipeline_declarative_silver_gold_pipeline",
+     "label": "${resources.pipelines.pipeline_declarative_silver_gold_pipeline.id}"
+    }
+   ]
+  }
+ }
+}

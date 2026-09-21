@@ -1,0 +1,51 @@
+resources:
+  pipelines:
+    pipeline_data_ingestion_offline_data:
+      name: data-ingestion-offline-data
+      ingestion_definition:
+        connection_name: databricks_azuresql-connection
+        objects:
+          - table:
+              source_catalog: retail_project_db
+              source_schema: dbo
+              source_table: offline_customers
+              destination_catalog: db_lakehouse_retail
+              destination_schema: bronze
+              destination_table: offline_customers
+              table_configuration:
+                primary_keys:
+                  - customer_id
+                query_based_connector_config:
+                  cursor_columns:
+                    - last_update
+          - table:
+              source_catalog: retail_project_db
+              source_schema: dbo
+              source_table: offline_orders
+              destination_catalog: db_lakehouse_retail
+              destination_schema: bronze
+              destination_table: offline_orders
+              table_configuration:
+                primary_keys:
+                  - order_id
+                query_based_connector_config:
+                  cursor_columns:
+                    - order_date
+          - table:
+              source_catalog: retail_project_db
+              source_schema: dbo
+              source_table: offline_products
+              destination_catalog: db_lakehouse_retail
+              destination_schema: bronze
+              destination_table: offline_products
+              table_configuration:
+                primary_keys:
+                  - product_id
+                query_based_connector_config:
+                  cursor_columns:
+                    - last_update
+        source_type: SQLSERVER
+      schema: bronze
+      channel: PREVIEW
+      catalog: db_lakehouse_retail
+      serverless: true
