@@ -74,3 +74,13 @@ ADLS Gen2 JSON ──────┘
 
 <img width="419" height="278" alt="image" src="https://github.com/user-attachments/assets/aebbe51f-d7d2-4cac-a5e3-40b7c2328d86" />
 
+
+
+**8. Project Outcome**
+*Integrated offline and online retail data.
+*Improved customer and product data quality.
+*Created unified dimensional models.
+*Enabled incremental data processing.
+*Automated Databricks deployment using Asset Bundles and CI/CD.
+*Prepared reliable datasets for Power BI reporting.
+
