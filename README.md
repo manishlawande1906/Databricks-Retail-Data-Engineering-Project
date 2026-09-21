@@ -65,6 +65,12 @@ ADLS Gen2 JSON ──────┘
 │   ├── silver_layer/
 │   └── gold_layer/
 
+
+
+
 **7. CI/CD Implementation**
+
+
+
 <img width="419" height="278" alt="image" src="https://github.com/user-attachments/assets/aebbe51f-d7d2-4cac-a5e3-40b7c2328d86" />
 
